@@ -145,6 +145,7 @@ function MessageInput({
   const generateUploadUrl = useMutation(
     api.functions.message.generateUploadUrl
   );
+  const removeAttachment = useMutation(api.functions.storage.remove);
   const [attachment, setAttachment] = useState<Id<"_storage">>();
   const [file, setFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
@@ -195,7 +196,22 @@ function MessageInput({
           <span className="sr-only">Add Attachment</span>
         </Button>
         <div className="flex flex-col flex-1 gap-2">
-          {file && <ImagePreview file={file} isUploading={isUploading} />}
+          {file && (
+            <ImagePreview
+              file={file}
+              isUploading={isUploading}
+              onDelete={() => {
+                if (attachment) {
+                  removeAttachment({ storageId: attachment });
+                }
+                setAttachment(undefined);
+                setFile(undefined);
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = "";
+                }
+              }}
+            />
+          )}
           <Input
             placeholder="Type a message..."
             value={content}
@@ -225,12 +241,14 @@ function MessageInput({
 function ImagePreview({
   file,
   isUploading,
+  onDelete,
 }: {
   file: File;
   isUploading: boolean;
+  onDelete?: () => void;
 }) {
   return (
-    <div className="relative size-40 overflow-hidden rounded-border">
+    <div className="relative size-40 overflow-hidden rounded-border group">
       <Image
         src={URL.createObjectURL(file)}
         alt="Image Preview"
@@ -242,6 +260,16 @@ function ImagePreview({
           <LoaderIcon className="animate-spin size-8" />
         </div>
       )}
+      <Button
+        type="button"
+        className="absolute top-2 right-2 group-hover:opacity-100 opacity-0 transition-opacity"
+        variant="destructive"
+        size="icon"
+        onClick={onDelete}
+      >
+        <TrashIcon />
+        <span className="sr-only">Remove</span>
+      </Button>
     </div>
   );
 }
