@@ -24,6 +24,7 @@ import { use, useRef, useState } from "react";
 import { toast } from "sonner";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function MessagePage({
   params,
@@ -56,6 +57,7 @@ export default function MessagePage({
       </ScrollArea>
       <TypingIndicator directMessage={id} />
       <MessageInput directMessage={id} />
+      <Analytics />
     </div>
   );
 }

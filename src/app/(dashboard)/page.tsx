@@ -6,6 +6,7 @@ import {
   AcceptedFriendsList,
   PendingFriendsList,
 } from "./_components/friends-list";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function FriendsPage() {
   return (
@@ -19,6 +20,7 @@ export default function FriendsPage() {
           <PendingFriendsList />
           <AcceptedFriendsList />
         </TooltipProvider>
+        <Analytics />
       </div>
     </div>
   );
