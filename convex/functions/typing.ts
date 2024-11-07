@@ -60,7 +60,7 @@ export const remove = internalMutation({
   args: {
     directMessage: v.id("directMessages"),
     user: v.id("users"),
-    expiresAt: v.number(),
+    expiresAt: v.optional(v.number()),
   },
   handler: async (ctx, { directMessage, user, expiresAt }) => {
     const existing = await ctx.db
@@ -69,7 +69,7 @@ export const remove = internalMutation({
         q.eq("user", user).eq("directMessage", directMessage)
       )
       .unique();
-    if (existing && existing.expiresAt === expiresAt) {
+    if (existing && (!expiresAt || existing.expiresAt === expiresAt)) {
       await ctx.db.delete(existing._id);
     }
   },
