@@ -44,6 +44,7 @@ export const run = internalAction({
     if (value?.startsWith("unsafe")) {
       await ctx.runMutation(internal.functions.moderation.deleteMessage, {
         id,
+        reason: value.replace("unsafe", "").trim(),
       });
     }
   },
@@ -58,11 +59,50 @@ export const getMessage = internalQuery({
   },
 });
 
+const reasons = {
+  S1: "Violent Crimes",
+  S2: "Non-Violent Crimes",
+  S3: "Sex-Related Crimes",
+  S4: "Child Sexual Exploitation",
+  S5: "Defamation",
+  S6: "Specialized Advice",
+  S7: "Privacy",
+  S8: "Intellectual Property",
+  S9: "Indiscriminate Weapons",
+  S10: "Hate",
+  S11: "Suicide & Self-Harm",
+  S12: "Sexual Content",
+  S13: "Elections",
+  S14: "Code Interpreter Abuse",
+};
+
 export const deleteMessage = internalMutation({
   args: {
     id: v.id("messages"),
+    reason: v.optional(v.string()),
   },
-  handler: async (ctx, { id }) => {
-    await ctx.db.delete(id);
+  handler: async (ctx, { id, reason }) => {
+    await ctx.db.patch(id, {
+      deleted: true,
+      deletedReason: reason
+        ? reasons[
+            reason as
+              | "S1"
+              | "S2"
+              | "S3"
+              | "S4"
+              | "S5"
+              | "S6"
+              | "S7"
+              | "S8"
+              | "S9"
+              | "S10"
+              | "S11"
+              | "S12"
+              | "S13"
+              | "S14"
+          ]
+        : undefined,
+    });
   },
 });
