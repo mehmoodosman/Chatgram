@@ -14,6 +14,7 @@ With real-time messaging, high-quality video, and secure authentication, Chatgra
 
 - **Instant Messaging**: Real-time, responsive chat.
 - **Crystal-Clear Video & Voice Calls**: Powered by WebRTC for top-notch quality.
+- **Content Moderation**: LlamaGuard automatically detects and removes unsafe messages, specifying the reason based on LlamaGuard's harm policy. Supports content safety in English, French, German, Hindi, Italian, Portuguese, Spanish, and Thai.
 - **Beautiful, Responsive UI**: Styled with Tailwind CSS and enhanced with ShadCN UI for a modern and accessible experience.
 - **Secure Authentication**: User access managed by Clerk for streamlined sign-ins.
 - **Scalable Backend**: Backed by Convex, delivering speed and reliability.
@@ -26,5 +27,4 @@ With real-time messaging, high-quality video, and secure authentication, Chatgra
 - **Backend**: [Convex](https://convex.dev/)
 - **Authentication**: [Clerk](https://clerk.dev/)
 - **Real-Time Communication**: [WebRTC](https://webrtc.org/)
-
----
+- **Content Moderation**: [LlamaGuard](https://console.groq.com/docs/content-moderation) for detecting and moderating harmful content across multiple languages.
